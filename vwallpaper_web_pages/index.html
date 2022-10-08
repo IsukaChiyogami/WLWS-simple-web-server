@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>这是一个标题</title>
+    <!-- 2560 * 1600 分辨率 -->
+    <link type="text/css" rel="stylesheet" href="common_style.css" />
+    <link type="text/css" rel="stylesheet" href="top_bar_style.css" />
+    <link type="text/css" rel="stylesheet" href="left_bar_style.css" />
+    <link type="text/css" rel="stylesheet" href="right_bar_style.css" />
+    <style></style>
+</head>
+
+<body>
+    <div id="bg">
+        <div id="dbg">
+            <img id="bgp" src="maoyuna.png" height="1600" width="2560" alt="background load failed" />
+        </div>
+        <div id="d0">
+            <input type="checkbox" class="hidden_item" id="left_bar_control" />
+            <div id="left_bar" onclick="document.getElementById('left_bar_control').checked=!document.getElementById('left_bar_control').checked">
+                <div id="console">
+                    <div id="console_title">console</div>
+                    <div id="command" style="--text_color: red">
+                        <div id="cmd_history" onclick="break_bubble(event)">SUPERNOVA CONSOLE [vision:
+                            10.0.19044.1603]<br />SP-Ex.Co.Ltd 保留所有权利<br /></div>
+                        <div id="cmd_text" style="--path_str: '/>'" contenteditable="true" onkeydown="run_cmd(event)"
+                            onclick="break_bubble(event)">&ensp;</div>
+                    </div>
+                </div>
+                <div id="left_bar_outer"></div>
+            </div>
+            <div id="right_bar">
+                <div id="schedule">
+                    <div id="tasks">
+                        <div id="create_tasks">
+                            <div id="tcnotice">hover to create new task !</div>
+                            <div id="create_button" onclick="create_task_func()">创建</div>
+                            <div class="tci" id="tcname">
+                                <div class="tct" id="tcname_t">标题:</div>
+                                <div class="tce" id="tcname_c" contenteditable="true" onblur="check_empty(this,'标题')">标题</div>
+                            </div>
+                            <div class="tci" id="tccontent">
+                                <div class="tct" id="tccontent_t">内容:</div>
+                                <div class="tce" id="tccontent_c" contenteditable="true" onblur="check_empty(this,'内容')">内容</div>
+                            </div>
+                            <div class="tci" id="tcbegt">
+                                <div class="tct" id="tcbegt_t">开始:</div>
+                                <div class="tce" id="tcbegt_c" contenteditable="true" onblur="if(check_empty(this,now_date_str+' '+now_time_str)){parse_time_str(this,'开始时间',0,0);}">2022-09-18 16:12:01</div>
+                            </div>
+                            <div class="tci" id="tcduration">
+                                <div class="tct" id="tcduration_t">持续:</div>
+                                <div class="tce" id="tcduration_c" contenteditable="true" onblur="if(check_empty(this,'x天x小时x分钟x秒')){parse_duration_str(this,'持续时间','tcbegt_c','tcendt_c',false)}">x天x小时x分钟x秒</div>
+                            </div>
+                            <div class="tci" id="tcendt">
+                                <div class="tct" id="tcwndt_t">结束:</div>
+                                <div class="tce" id="tcendt_c" contenteditable="true" onblur="if(check_empty(this,now_date_str+' '+now_time_str)){parse_time_str(this,'结束时间','tcbegt_c','tcduration_c')}">2022-09-18 16:12:01</div>
+                            </div>
+                            <div class="tci" id="tcnotd">
+                                <div class="tct" id="tcnottd_t">开始时间前提醒:</div>
+                                <div class="tce" id="tcnottd_c" contenteditable="true" onblur="if(check_empty(this,'x天x小时x分钟x秒')){parse_duration_str(this,'开始前多少时间提醒','tcbegt_c','tcnotts_c',true)}">x天x小时x分钟x秒</div>
+                            </div>
+                            <div class="tci" id="tcnott">
+                                <div class="tct" id="tcnotts_t">规定时间提醒:</div>
+                                <div class="tce" id="tcnotts_c" contenteditable="true" onblur="if(check_empty(this,now_date_str+' '+now_time_str)){parse_time_str(this,'提醒时间','tcbegt_c','tcnottd_c')}">2022-09-18 16:12:01</div>
+                            </div>
+                            <div class="tci" id="tinfo">
+                                <div class="tct" id="tcnotice_t">提示:</div>
+                                <div class="tce" id="tcnotice_c">持续时间段不设年与月(年与月天数不固定)</div>
+                            </div>
+                        </div>
+                        <div class="task_group" id="future_tasks"><!--未来的未完成的任务-->
+                            <div class="task_class_title_bg"><div class="task_class_title">计划</div></div>
+                        </div>
+                        <div class="task_group" id="upcoming_tasks"><!--即将到来未完成的任务-->
+                            <div class="task_class_title">即将开始</div>
+                        </div>
+                        <div class="task_group" id="running_tasks"><!--运行中未完成的任务-->
+                            <div class="task_class_title">进行中</div>
+                        </div>
+                        <div class="task_group" id="finish_tasks"><!--未结束已完成的任务-->
+                            <div class="task_class_title">完成</div>
+                        </div>
+                        <div class="task_group" id="warning_tasks"><!--已结束未完成的任务-->
+                            <div class="task_class_title">遗漏</div>
+                        </div>
+                        <div class="task_group" id="past_tasks"><!--结束完成的任务-->
+                            <div class="task_class_title">结束</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="checkbox" class="hidden_item" id="top_bar_click" />
+            <div id="top_bar">
+                <div class="top_bar_class" id="time_table">
+                    <div class="cource_column" id="course_monday">
+                        <div class="cource_grid">
+                            <div class="course_name">概率论与数理统计</div>
+                            <div class="course_site">6B-101</div>
+                            <div class="course_week_period">1-14周</div>
+                            <div class="course_teacher">黄香香</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">工程力学</div>
+                            <div class="course_site">6B-302</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">何春灿</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">环境工程CAD</div>
+                            <div class="course_site">6C-304</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">吴琪 张云飞</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">形势与政策3</div>
+                            <div class="course_site">6F-404</div>
+                            <div class="course_week_period">9-12周</div>
+                            <div class="course_teacher">银峰</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">英语视听说3</div>
+                            <div class="course_site">6E-203</div>
+                            <div class="course_week_period">9-16周</div>
+                            <div class="course_teacher">alan</div>
+                        </div>
+                        <div class="week_day_name">一</div>
+                    </div>
+                    <div class="cource_column" id="course_tuesday">
+                        <div class="cource_grid">
+                            <div class="course_name">普通物理学</div>
+                            <div class="course_site">6B-302</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">韦洛霞</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">环境学基础</div>
+                            <div class="course_site">6D-202</div>
+                            <div class="course_week_period">7-10周</div>
+                            <div class="course_teacher">徐剑晖 李丹</div>
+                        </div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="week_day_name">二</div>
+                    </div>
+                    <div class="cource_column" id="course_wednessday">
+                        <div class="cource_grid">
+                            <div class="course_name">概率论与数理统计</div>
+                            <div class="course_site">6B-101</div>
+                            <div class="course_week_period">1-14周</div>
+                            <div class="course_teacher">黄香香</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">英语读写译</div>
+                            <div class="course_site">6D-301</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">李川</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">分析化学</div>
+                            <div class="course_site">6B-301</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">陈洪伟 陈灵晶</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">足球</div>
+                            <div class="course_site">真草</div>
+                            <div class="course_week_period">5-18周</div>
+                            <div class="course_teacher">张恒</div>
+                        </div>
+                        <div class="cource_grid"></div>
+                        <div class="week_day_name">三</div>
+                    </div>
+                    <div class="cource_column" id="course_thursday">
+                        <div class="cource_grid">
+                            <div class="course_name">有机化学</div>
+                            <div class="course_site">6A-308</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">顾建峰 常学义</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">普通物理学</div>
+                            <div class="course_site">6A-403</div>
+                            <div class="course_week_period">1-16周</div>
+                            <div class="course_teacher">韦洛霞</div>
+                        </div>
+                        <div class="cource_grid" style="height: 202px;">
+                            <div class="course_name">有机化学实验</div>
+                            <div class="course_site">12E-401</div>
+                            <div class="course_week_period">7-10周</div>
+                            <div class="course_teacher">顾建峰 常学义</div>
+                        </div>
+                        <div class="cource_grid">
+                            <div class="course_name">人工智能与深度学习概论</div>
+                            <div class="course_site">6F-401</div>
+                            <div class="course_week_period">3-13周</div>
+                            <div class="course_teacher">封硕</div>
+                        </div>
+                        <div class="week_day_name">四</div>
+                    </div>
+                    <div class="cource_column" id="course_friday">
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid">
+                            <div class="course_name">工程伦理</div>
+                            <div class="course_site">6B-102</div>
+                            <div class="course_week_period">1-12周</div>
+                            <div class="course_teacher">刘悦忆 郑航</div>
+                        </div>
+                        <div class="cource_grid" style="height: 202px;">
+                            <div class="course_name">分析化学实验</div>
+                            <div class="course_site">12E-204</div>
+                            <div class="course_week_period">9-16周</div>
+                            <div class="course_teacher">陈宏伟 陈灵晶</div>
+                        </div>
+                        <div class="cource_grid"></div>
+                        <div class="week_day_name">五</div>
+                    </div>
+                    <div class="cource_column" id="course_satday">
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="week_day_name">六</div>
+                    </div>
+                    <div class="cource_column" id="course_sunday">
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="cource_grid"></div>
+                        <div class="week_day_name">日</div>
+                    </div>
+                </div>
+                <div class="top_bar_class" id="main">
+                    <div id="main_state_field">
+                        <div id="top_bar_date_bg">
+                            <div id="top_bar_date"></div>
+                        </div>
+                        <input type="checkbox" class="hidden_item" id="notification_contorler" />
+                        <div id="notification_box">
+                            <div id="notifications"></div>
+                        </div>
+                    </div>
+                    <div id="main_state_name">日常办公状态</div>
+                </div>
+                <div class="top_bar_class" id="states">
+                    <div id="states_box">
+                        <div class="states_item" style="--state_color: chartreuse" id="server_state">
+                            <div class="states_led"></div>
+                            <div class="states_scription">
+                                <p class="states_script_text">_W_服务器 : 连接正常</p>
+                            </div>
+                        </div>
+                        <div class="states_item" id="fan0" style="--state_color: yellow">
+                            <div class="states_led"></div>
+                            <div class="states_scription">
+                                <p class="states_script_text">风扇0 : 开 3000RPM</p>
+                                <div class="progress_bar">
+                                    <div class="progress" id="fan_speed0"
+                                        style="--progess_value: 120px;--progress_color:var(--state_color)"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="states_item" style="--state_color: chartreuse">
+                            <div class="states_led"></div>
+                            <div class="states_scription">
+                                <p class="states_script_text">温湿度计 : 开 温度40°C 湿度46%</p>
+                            </div>
+                        </div>
+                        <div class="states_item" style="--state_color: gray">
+                            <div class="states_led"></div>
+                            <div class="states_scription">
+                                <p class="states_script_text">ESP32-C3 : 失联 无信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="importsnt_notice_bg" onclick="run_close_func()">
+            <div id="important_notice" onclick="break_bubble(event)"></div>
+        </div>
+    </div>
+    <script type="text/javascript" src="common_js.js"></script>
+    <script type="text/javascript" src="top_bar_js.js"></script>
+    <script type="text/javascript" src="left_bar_js.js"></script>
+    <script type="text/javascript" src="right_bar_js.js"></script>
+    <script>
+        rand_fan_speed();
+    </script>
+</body>
+
+</html>

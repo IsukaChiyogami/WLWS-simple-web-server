@@ -1,0 +1,96 @@
+{
+    "cmds":
+    [
+        {
+            "name":"目录",
+            "sub_names":"目录 提示 列表 命令 命令提示 帮助 help 命令列表 tips menu",
+            "param":null,
+            "optional_param":null
+        },
+        {
+            "name":"戒备",
+            "sub_names":"戒备 戒备状态 状态 state",
+            "param":
+            {
+                "name":"状态名",
+                "scription":"0"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"路径",
+            "sub_names":"路径 网址 地址 链接 path 网络地址 url",
+            "param":
+            {
+                "name":"网址",
+                "scription":"协议://域名/url"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"echo",
+            "sub_names":"打印 返回 回声 输出 echo 说",
+            "param":
+            {
+                "name":"内容",
+                "scription":"xxx"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"标题",
+            "sub_names":"标题 题目 title",
+            "param":
+            {
+                "name":"内容",
+                "scription":"xxx"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"清屏",
+            "sub_names":"清除 清屏 cls 清空",
+            "param":null,
+            "optional_param":null
+        },
+        {
+            "name":"颜色",
+            "sub_names":"字体颜色 颜色 color",
+            "param":
+            {
+                "name":"颜色",
+                "scription":"red"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"同步",
+            "sub_names":"状态同步 同步 状态",
+            "param":
+            {
+                "name":"状态",
+                "scription":"运行/停止"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"重连",
+            "sub_names":"重连时间 重连",
+            "param":
+            {
+                "name":"时间",
+                "scription":"数字"
+            },
+            "optional_param":null
+        },
+        {
+            "name":"指令",
+            "sub_names":"指令 命令 cmd command",
+            "param":{
+                "name":"指令内容",
+                "scription":"指令内容"
+            },
+            "optional_param":null
+        }
+    ]
+}

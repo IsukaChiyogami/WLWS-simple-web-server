@@ -1,0 +1,322 @@
+
+#top_bar
+{
+    --top_bar_bg_color:  var(--global_bg_color);
+    --top_bar_theme_color: var(--global_theme_color);
+    position: absolute;
+    display: inline-flex;
+    left: 280px;
+    top: -560px;
+    width: 2000px;
+    height: 600px;
+    transition: 1s;
+    border-bottom: 2px solid var(--top_bar_theme_color);
+    background: linear-gradient( to bottom,var(--top_bar_bg_color),transparent);
+    overflow: hidden;
+}
+#top_bar:hover
+{
+    top: 0px;
+    width: 2000px;
+    height: 600px;
+    transition: 1s;
+    border-bottom: 6px solid var(--top_bar_theme_color);
+}
+.top_bar_class
+{
+    display: inline-block;
+    height: 600px;
+    overflow: hidden;
+}
+#time_table
+{
+    display: inline-flex;
+    margin-left: 6px;
+    margin-right: 6px;
+    width: 588px;
+    height: 600px;
+    overflow: hidden;
+}
+.cource_column
+{
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 4px;
+    height: 590px;
+    width: 80px;
+    overflow: hidden;
+    transition: 1s;
+}
+#time_table:hover .cource_column
+{
+    width: 40px;
+}
+#time_table:hover .cource_column:hover
+{
+    width: 320px;
+    background-color: darkslategray;
+}
+.cource_grid
+{
+    display: inline-block;
+    margin-top: 2px;
+    border-radius: 5px;
+    border: solid var(--top_bar_theme_color) 2px;
+    width: 76px;
+    height: 96px;
+    overflow: hidden;
+    transition: 1s;
+}
+#time_table:hover .cource_grid
+{
+    width: 36px;
+}
+#time_table:hover .cource_column:hover .cource_grid
+{
+    width: 316px;
+}
+.course_name
+{
+    display: inline-block;
+    font-size: 22px;
+    color: goldenrod;
+    transition: 1s;
+}
+.course_name:hover
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.cource_column:hover .course_name
+{
+    font-size: 36px;
+}
+.course_site
+{
+    display: inline-block;
+    font-size: 20px;
+    color: peru;
+    transition: 1s;
+}
+.course_site:hover
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.cource_column:hover .course_site
+{
+    font-size: 30px;
+}
+.course_week_period
+{
+    display: inline-block;
+    color: transparent;
+    font-size: 16px;
+    transition: 1s;
+}
+.cource_column:hover .course_week_period
+{
+    color: orchid;
+    font-size: 22px;
+}
+.course_teacher
+{
+    display: inline-block;
+    color: transparent;
+    font-size: 16px;
+    transition: 1s;
+}
+.cource_column:hover .course_teacher
+{
+    color: orchid;
+    font-size: 20px;
+}
+.week_day_name
+{
+    margin-top: 20px;
+    height: 40px;
+    width: 80px;
+    font-size: 30px;
+    color: var(--top_bar_theme_color);
+    text-align: center;
+    overflow: hidden;
+    transition: 1s;
+}
+#time_table:hover .week_day_name
+{
+    font-size: 18px;
+    width: 40px;
+}
+#time_table:hover .cource_column:hover .week_day_name
+{
+    margin-top: 0;
+    width: 320px;
+    font-size: 36px;
+    color: chartreuse;
+}
+#main
+{
+    width:600px;
+}
+#main_state_field
+{
+    display: inline-block;
+    min-height: 560px;
+    width: 600px;
+    overflow: hidden;
+}
+#top_bar_date_bg
+{
+    height: 80px;
+    width: 600px;
+    background: linear-gradient( to bottom,var(--top_bar_bg_color) 60%,transparent 100%);
+    transition: 1s;
+}
+#top_bar_date
+{
+    height: 60px;
+    width: 600px;
+    color: greenyellow;
+    white-space: nowrap;
+    font-size: 36px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: 1s;
+}
+#top_bar_date:hover
+{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+#notification_box
+{
+    position: relative;
+    top: -20px;
+    left: 0;
+    width: 600px;
+    height: 500px;
+    transition: 1s;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+#notification_box::-webkit-scrollbar
+{
+    display: none;
+}
+#notification_contorler:checked+#notification_box
+{
+    height: 540px;
+}
+#notifications
+{
+    width: 600px;
+    bottom: 0;
+    padding-top: 600px;
+    padding-bottom: 3px;
+}
+@keyframes shining_notification
+{
+    0%
+    {
+        background-color: transparent;
+    }
+    50%
+    {
+        background-color: var(--top_bar_bg_color);
+    }
+    100%
+    {
+        background-color: transparent;
+    }
+}
+.notification_item
+{
+    width: 600px;
+    font-size: 25px;
+    animation: shining_notification 1s 3 forwards;
+    transition: .5s;
+}
+.notification_item:hover
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+#main_state_name
+{
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: -20px;
+    height: 40px;
+    width: 600px;
+    text-align: center;
+    letter-spacing: 50px;
+    font-size: 26px;
+    color: var(--top_bar_theme_color);
+    transition: 1s;
+}
+#main_state_name:hover
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+#states
+{
+    width: 800px;
+}
+#states_box
+{
+    display: inline-block;
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
+}
+.states_item
+{
+    display: inline-block;
+    margin-top: 560px;
+    width: 20px;
+    height: 40px;
+    overflow: hidden;
+    transition: 1s;
+}
+.states_item:hover
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+#top_bar:hover .states_item
+{
+    margin-top: 0;
+    width: 800px;
+}
+.states_led
+{
+    display: inline-block;
+    margin-top: 15px;
+    margin-left: 10px;
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    box-shadow: 0,0,3px,3px,var(--state_color);
+    background-color: var(--state_color);
+    transition: .5s;
+}
+.states_scription
+{
+    display: inline;
+    margin-left: 10px;
+    margin-top: 5px;
+    height: 40px;
+    width: 0px;
+    float: right;
+    overflow: hidden;
+    color: var(--state_color);
+    transition: 1s;
+    transition-delay: .8s;
+}
+#top_bar:hover .states_scription
+{
+    width:770px;
+}
+.states_script_text
+{
+    display: inline;
+    font-size: 22px;
+    color: var(--state_color);
+    transition: .5s;
+}

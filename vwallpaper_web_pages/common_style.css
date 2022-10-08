@@ -1,0 +1,80 @@
+
+body
+{
+    position: absolute;
+    left: 0;
+    margin: 0;
+    overflow: hidden;
+}
+#bg
+{
+    height: 1600px;
+    width: 2560px;
+    overflow: hidden;
+}
+#dbg
+{
+    height: 1600px;
+    width: 2560px;
+    overflow: hidden;
+}
+#bgp
+{
+    height: 1600px;
+    width: 2560px;
+    overflow: hidden;
+    object-fit: cover;
+}
+#d0
+{ 
+    --global_theme_color:cyan;
+    --global_bg_color: rgba(0, 255, 255, 0.3);
+    height: 1600px;
+    width: 2560px;
+    background-color: rgba(0, 0, 0, 0.7);   
+    overflow: hidden;
+}
+.hidden_item
+{
+    display: none;
+}
+.progress_bar
+{
+    display: inline-block;
+    margin-bottom: 4px;
+    height: 8px;
+    width: 200px;
+    background-color: gray;
+}
+.progress
+{
+    display: block;
+    height: 8px;
+    width: var(--progess_value);
+    background-color: var(--progress_color);
+    transition: .5s;
+}
+#importsnt_notice_bg
+{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2560px;
+    height: 1600px;
+    background-color: rgba(128, 128, 128, 0.6);
+}
+#important_notice
+{
+    width: 1800px;
+    max-height: 1500px;
+    margin-left: 380px;
+    margin-top: 50px;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+    color: coral;
+    background-color: olive;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

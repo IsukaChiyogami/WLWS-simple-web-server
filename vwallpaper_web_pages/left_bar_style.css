@@ -1,0 +1,107 @@
+#left_bar
+{
+    --left_bar_bg_color: var(--global_bg_color);
+    --left_bar_theme_color: var(--global_theme_color);
+    display: inline-block;
+    position: absolute;
+    left: -1500px;
+    top: 200px;
+    width: 1560px;
+    height: 1200px;
+    border-right: solid 2px var(--left_bar_theme_color);
+    background: linear-gradient( to right,var(--left_bar_bg_color),transparent);
+    transition: 1s;
+}
+#left_bar:hover
+{
+    left: -1000px;
+    border-right: solid 10px var(--left_bar_theme_color);
+}
+#left_bar_control:checked+#left_bar
+{
+    left: 0;
+    border-right: solid 20px var(--left_bar_theme_color);
+}
+#console
+{
+    display: inline-block;
+    width: 1500px;
+    height: 1200px;
+}
+#console_title
+{
+    display: block;
+    color: var(--left_bar_theme_color);
+    font-size: 36px;
+    margin-left: 1000px;
+    width: 500px;
+    height: 100px;
+    text-align: center;
+    transition: 1s;
+}
+#console_title:hover
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+#left_bar_control:checked+#left_bar #console_title
+{
+    margin: 0;
+    width: 1500px;
+}
+#command
+{
+    display: block;
+    height: 1000px;
+    width: 1500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#cmd_history
+{
+    display: inline-block;
+    margin-left: 1000px;
+    border: solid 10px black;
+    background-color: black;
+    color: var(--text_color);
+    font-size: 22px;
+    width: 480px;
+    transition: 1s;
+    min-height: 200px;
+}
+#left_bar_control:checked+#left_bar #cmd_history
+{
+    margin: 0;
+    width: 1480px;
+}
+#cmd_text
+{
+    display: inline-block;
+    background-color: black;
+    border-top: solid 3px pink;
+    border-left: solid 10px black ;
+    border-right: solid 10px black ;
+    white-space: nowrap;
+    color: var(--text_color);
+    font-size: 26px;
+    margin-left: 1000px;
+    height: 50px;
+    width: 480px;
+    transition: 1s; 
+}
+#cmd_text::before
+{
+    color: var(--text_color);
+    font-size: 22px;
+    content: var(--path_str);
+}
+#left_bar_control:checked+#left_bar #cmd_text
+{
+    margin: 0;
+    width: 1480px;
+}
+#left_bar_outer
+{
+    display: inline-block;
+    width: 60px;
+    height: 1200px;
+}
