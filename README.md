@@ -2,6 +2,7 @@
 my web server in C , coding with learning
 # W_http_server_C3系列
 > * C3U:通用版 universal version
+> * C3F:IPv4,6双栈版，支持IPv4和IPv6的访问 support both IPv4 and IPv6
 > * C3D:适用于智能桌面壁纸的特化版，配套网页见<kbd>vwallpaper_web_pages</kbd> just for vwallpaper, with a set of web pages in <kbd>vwallpaper_web_pages</kbd>
 >> * 控制台支持4条指令(c console support 4 command):
 >>> * quit/exit 退出
