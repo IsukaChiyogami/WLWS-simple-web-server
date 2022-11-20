@@ -908,7 +908,7 @@ u2 CRA_state = 0;//CRA页面所需值
 */
 u2 reply_client(SOCKET client, const char* method, const char* url, const char* path, const char* query, const char* fragment,const char* version, const struct dict_chain_10u* headers, const char* content, u8 cont_len)
 {
-	u2 keep_alive = 1;
+		u2 keep_alive = 1;
 	//回应客户端
 	if (memcmp(method, "GET", 3) == 0)
 	{
@@ -916,103 +916,9 @@ u2 reply_client(SOCKET client, const char* method, const char* url, const char* 
 		{
 			HTTP_respond(client, 200, 0, index_content, index_len, "text/html");
 		}
-		else if (memcmp(path, "CRA/change_alerm_state.opt", 26) == 0)
+		else if (memcmp(path, "example/e.txt", 13) == 0)
 		{
-			if (query[0]=='s'&&query[1]=='='&&query[2]>='0'&&query[2]<='9')
-			{
-				CRA_state = query[2] - '0';
-				HTTP_respond(client, 200, 0, "finish", 6, "text/plain");
-			}
-			else
-			{
-				HTTP_respond(client, 200, 0, "syntax error", 12, "text/plain");
-			}
-		}
-		else if (memcmp(path, "CRA/change_alerm_state.cdt", 26) == 0)
-		{
-			char state_buf = '0' + CRA_state;
-			HTTP_respond(client, 200, 0, &state_buf, 1, "text/plain");
-		}
-		else if (memcmp(path, "winc/transmit/get.rkcc", 22) == 0)//stock info transmit
-		{
-			char* hostr = 0;
-			if (memcmp(query, "t=tx", 4) == 0)
-			{
-				hostr = "qt.gtimg.cn";
-			}
-			else if (memcmp(query, "t=ne", 4) == 0)
-			{
-				hostr = "img1.money.126.net";
-			}
-			else
-			{
-				HTTP_respond(client, 403, 0, 0, 0, 0);
-			}
-
-			char* make_buf = 0, * trans_buf = 0;
-			struct dict_chain_10u dheader={.next=0,.len=0};
-			dict_chain_apeend_ele(&dheader, "Host", hostr);
-			dict_chain_apeend_ele(&dheader, "Accept-Encoding", "gzip");
-			dict_chain_apeend_ele(&dheader, "Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6");
-			dict_chain_apeend_ele(&dheader, "Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-			u8 rlen = HTTP_make_request(&make_buf, REQUEST_BUF_SIZE_UNIT, "GET", query + 5, strlen(query + 5), &dheader, 0, 0, 0);
-			dict_chain_free(&dheader);
-			rlen = HTTP_request(hostr, make_buf, rlen, &trans_buf, 8192u);
-			free(make_buf);
-			if (trans_buf)
-			{
-				u8 rrlen = rlen;
-				char* bpos = memchr(trans_buf, 'C', rlen);
-				while (bpos)
-				{
-					rrlen = rlen - (bpos - trans_buf);
-					if (memcmp(bpos, "Content-Encoding:", 17) == 0)
-					{
-						bpos += 17;
-						while (bpos[0] == ' ')
-							bpos++;
-						char* fpos = memchr(bpos, '\r', 32);
-						if (fpos)
-						{
-							rrlen = fpos - bpos;
-
-							struct dict_chain_10u rheader = { .len = 1,.next = 0 };
-							rheader.eles[0].name = (char*)malloc(18);
-							memcpy(rheader.eles[0].name, "Content-Encoding", 18);
-							rheader.eles[0].value = (char*)malloc(rrlen + 1);
-							memcpy(rheader.eles[0].value, bpos, rrlen);
-							rheader.eles[0].value[rrlen] = 0;
-							
-							rrlen = rlen - (bpos - trans_buf);
-							bpos = memchr(bpos, '\n', rrlen);
-							while (bpos)
-							{
-								if (bpos[2] == '\n')
-								{
-									bpos += 3;
-									rrlen = rlen - (bpos - trans_buf);
-									HTTP_respond(client, 200, &rheader, bpos, rrlen, "text/html");
-									break;
-								}
-								rrlen = rlen - (bpos - trans_buf);
-								bpos = memchr(bpos, '\n', rrlen);
-							}
-							dict_chain_free(&rheader);
-						}
-						else
-						{
-							HTTP_respond(client, 502, 0, 0, 0, 0);
-						}
-						break;
-					}
-					bpos = memchr(bpos + 1, 'C', rrlen);
-				}
-				free(trans_buf);
-			}
-			else
-			{
-				HTTP_respond(client, 502, 0, 0, 0, 0);
-			}
+			HTTP_respond(client, 200, 0, "hello world", 11, "text/plain");
 		}
 		else//通用情况
 		{
@@ -1065,35 +971,34 @@ u2 reply_client(SOCKET client, const char* method, const char* url, const char* 
 						dict_chain_apeend_ele(header_m, "Cache-Control", "max-age=2592000");
 					}
 					//选择传输方式
-					char* trans_buf = 0;
 					if (req_flen > RESPOND_CHUNK_ENCODING_THRESHOLD)
 					{
-						trans_buf=(char*)malloc(RESPOND_CHUNK_ENCODING_THRESHOLD+2);
+						char chunk_buf[RESPOND_CHUNK_ENCODING_THRESHOLD+2];
 						header_m = &temporary_header;
 						dict_chain_apeend_ele(header_m, "Transfer-Encoding", "chunked");
-						HTTP_respond(client, 200, header_m, 0, 0, cont_type);
+						HTTP_respond(client, 200, header_m, 0, 0, cont_type);//内容必须置零，否则会制作并发送内容长header
 						char chunk_size[64];
 						while (feof(request_file) == 0)
 						{
 							//循环发送直到末尾发0
-							u8 read_len = fread(trans_buf, sizeof(char), RESPOND_CHUNK_ENCODING_THRESHOLD, request_file);
+							u8 read_len = fread(chunk_buf, sizeof(char), RESPOND_CHUNK_ENCODING_THRESHOLD, request_file);
 							memset(chunk_size, 0, 64);
 							itoa(read_len, chunk_size, 16);
 							u2 size_len = strlen(chunk_size);
 							memcpy(chunk_size + size_len, "\r\n", 2);
-							memcpy(trans_buf + read_len, "\r\n", 2);
+							memcpy(chunk_buf + read_len, "\r\n", 2);
 							send(client, chunk_size, size_len + 2, 0);
-							send(client, trans_buf, read_len + 2, 0);
+							send(client, chunk_buf, read_len + 2, 0);
 						}
 						send(client, "0\r\n\r\n", 5, 0);
 					}
 					else
 					{
-						trans_buf = (char*)malloc(req_flen * sizeof(char));
-						fread(trans_buf, sizeof(char), req_flen, request_file);
-						HTTP_respond(client, 200, header_m, trans_buf, req_flen, cont_type);
+						char* req_cont = (char*)malloc(req_flen * sizeof(char));
+						fread(req_cont, sizeof(char), req_flen, request_file);
+						HTTP_respond(client, 200, header_m, req_cont, req_flen, cont_type);
+						free(req_cont);
 					}
-					free(trans_buf);
 
 					if (header_m)
 						dict_chain_free(header_m);
@@ -1109,50 +1014,13 @@ u2 reply_client(SOCKET client, const char* method, const char* url, const char* 
 	else if (memcmp(method, "POST", 4) == 0)
 	{
 		
-		if (memcmp(path, "winc/upload/tasks_data.json",27) == 0)
+		if (memcmp(path, "example/e.txt",13) == 0)
 		{
-			if (content)
-			{
-				FILE* tasks_file;
-				char* td_fn = (char*)malloc(root_path_len + 16);
-				memcpy(td_fn, ROOT_PATH, root_path_len);
-				memcpy(td_fn + root_path_len, "tasks_data.json", 16);
-				errno_t fresult = fopen_s(&tasks_file, td_fn, "wb");
-				free(td_fn);
-				if (fresult)
-				{
-					printf("tasks_data.json打开失败:%d", fresult);
-					HTTP_respond(client, 500, 0, 0, 0, 0);
-				}
-				else
-				{
-					fwrite(content, 1, cont_len, tasks_file);
-					fclose(tasks_file);
-					HTTP_respond(client, 200, 0, content, cont_len, "application/json");
-				}
-			}
-			else
-			{
-				HTTP_respond(client, 403, 0, 0, 0, 0);
-			}
+			HTTP_respond(client, 200, 0, "hello world", 11, "text/plain");
 		}
-		else if (memcmp(path, "winc/cmd/run_d.slience", 22) == 0)
+		else if (memcmp(path, "echo", 4) == 0)
 		{
-			if (content)
-			{
-				char* cmp_cmd = (char*)calloc(cont_len, 1);
-				UTF8toANSI(content, cmp_cmd);
-				if (memcmp(cmp_cmd, "查看公开库", 18) == 0)
-				{
-					system("start https://gitee.com/");
-				}
-				else if (memcmp(cmp_cmd, "打开照片库", 10) == 0)
-				{
-					system("start E:\\winc\\picture\\majsoul");
-				}
-				free(cmp_cmd);
-			}
-			HTTP_respond(client, 204, 0, 0, 0, 0);
+			HTTP_respond(client, 200, 0, content, cont_len, "text/plain");
 		}
 		else//通用情况
 		{
